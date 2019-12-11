@@ -7,7 +7,7 @@ let playingTime = 0;
 let timer = setInterval(() => {
   playingTime++;
   const timer = document.querySelector(".timer");
-  timer.textContent = `since the starting of the: ${playingTime}`;
+  timer.textContent = `since the starting of the game: ${playingTime}`;
   console.log(playingTime);
 }, 1000);
 
