@@ -26,8 +26,8 @@
           <li><i class="fa fa-star"></i></li>
           <li><i class="fa fa-star"></i></li>
         </ul>
-
-        <span class="moves">3</span> Moves
+        <span class="moves">0</span>
+        <span class="elapsed-time"></span>
 
         <div class="restart">
           <i class="fa fa-repeat"></i>
@@ -86,7 +86,13 @@
       </ul>
       <h2 class="timer"></h2>
     </div>
-
+    <div class="modal hide">
+      <p>You won!</p>
+      <p> <span class="modal-time"></span></p>
+      <p> <span class="modal-moves"></span></p>
+      <p><span class="modal-star-rating"></span></p>
+      <button onClick="window.location.reload();">Play Again!</button>
+    </div>
     <script src="js/app.js"></script>
   </body>
 </html>

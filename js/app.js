@@ -2,14 +2,19 @@
 let cards = document.querySelectorAll(".deck .card");
 cards = shuffle(Array.prototype.slice.call(cards));
 renderCards(cards);
-let playingTime = 0;
 
-let timer = setInterval(() => {
-  playingTime++;
-  const timer = document.querySelector(".timer");
-  timer.textContent = `since the starting of the game: ${playingTime}`;
-  console.log(playingTime);
-}, 1000);
+let playingTime = 0;
+let isGameStart = false;
+let timer = NaN;
+
+// let timer = setInterval(() => {
+//   if (startTimer) {
+//     playingTime++;
+//     const timer = document.querySelector(".elapsed-time");
+//     timer.textContent = `Elapsed Time: ${playingTime}`;
+//     console.log(playingTime);
+//   }
+// }, 1000);
 
 let moves = 0;
 let numOfStars = NaN;
@@ -30,6 +35,15 @@ function addHandlers(cards) {
     }
 }
 
+function trackTime() {
+  isGameStart = true;
+  timer = setInterval(() => {
+    playingTime++;
+    const timer = document.querySelector(".elapsed-time");
+    timer.textContent = `Elapsed Time: ${playingTime}`;
+    console.log(playingTime);
+  }, 1000);
+}
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
   var currentIndex = array.length,
@@ -62,6 +76,9 @@ function renderCards(cards) {
 
 // @description: Show the symbol of the card
 function show(evt) {
+  if (!isGameStart) {
+    trackTime();
+  }
   const card = evt.target.closest(".card");
   if (card) card.removeEventListener("click", show);
 
@@ -170,7 +187,7 @@ function clearTimer(timer) {
   return timer;
 }
 
-// @description: Render the complete view to the user 
+// @description: Render the complete view to the user
 function complete() {
   let cards = document.querySelectorAll(".card");
   cards = Array.prototype.slice.call(cards);
@@ -183,15 +200,16 @@ function complete() {
   }
 
   if (matchedCards == 16) {
-    const container = document.querySelector(".container");
-    console.log(container);
     clearTimer(timer);
-    const markup = `
-      <h1>Congratulation You Won!</h1>
-      <h2>You Have Played For: ${playingTime} seconds</h2>
-      <h2>With ${moves} Moves and ${numOfStars} Stars</h2>
-      <button onClick="window.location.reload();">Play Again!</button>
-    `;
-    container.innerHTML = markup;
+    const modal = document.querySelector(".modal");
+    const timeElement = document.querySelector(".modal-time");
+    const movesElement = document.querySelector(".modal-moves");
+    const starElement = document.querySelector(".modal-star-rating");
+
+    timeElement.textContent = `Elapsed time: ${playingTime}`;
+    movesElement.textContent = `Number of moves: ${moves}`;
+    starElement.textContent = `Star rating: ${numOfStars}`;
+
+    modal.classList.remove("hide");
   }
 }
